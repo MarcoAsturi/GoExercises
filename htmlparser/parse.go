@@ -88,32 +88,35 @@ func buildLinkFromNode(n *html.Node) Link {
 	}
 
 	// initializing a new string
-	var sb strings.Builder
+	// var sb strings.Builder
+	text := ""
 
 	// extraxcting html text and concatenating to the String
-	extractTextFromNode(n, &sb)
+	// extractTextFromNode(n, &sb)
+	extractTextFromNode(n, &text)
 
 	// remove empty space (first and last)
-	link.Text = strings.TrimSpace(sb.String())
+	// link.Text = strings.TrimSpace(sb.String())
+	link.Text = strings.TrimSpace(text)
 	return link
 
 }
 
 // extract text contained in html node and his childs recorsively
-func extractTextFromNode(n *html.Node, sb *strings.Builder) {
+func extractTextFromNode(n *html.Node, text *string) {
 
 	// if node is text type, then add the content in output string
 	if n.Type == html.TextNode {
-		sb.WriteString(n.Data)
+		*text = n.Data
 	}
 
 	// check recorively all the childs of current node
 	for c := n.FirstChild; c != nil; c = c.NextSibling {
-		extractTextFromNode(c, sb)
+		extractTextFromNode(c, text)
 	}
 
 	// if the node is an element link "p" or "br", then add a new line in output string
-	if n.Type == html.ElementNode && (n.Data == "p" || n.Data == "br") {
-		sb.WriteString("\n")
-	}
+	// if n.Type == html.ElementNode && (n.Data == "p" || n.Data == "br") {
+	// 	sb.WriteString("\n")
+	// }
 }
