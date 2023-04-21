@@ -46,35 +46,6 @@ func extractLinks(n *html.Node) ([]Link, error) {
 	return links, nil
 }
 
-// func extractLinks(r io.Reader) ([]Link, error) {
-// 	doc, err := html.Parse(r)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	return extractLinksFromNode(doc), nil
-// }
-
-// func for extracting all links in an html node and his childs recorsively
-// func extractLinksFromNode(n *html.Node) []Link {
-
-// 	// initialize an empty slice of Link
-// 	var links []Link
-
-// 	// checkin node and tag "a"
-// 	if n.Type == html.ElementNode && n.Data == "a" {
-// 		// if true update the slice
-// 		links = append(links, buildLinkFromNode(n))
-// 	}
-
-// 	// iterate for childs node
-// 	for c := n.FirstChild; c != nil; c = c.NextSibling {
-// 		childLinks := extractLinksFromNode(c)
-// 		links = append(links, childLinks...)
-// 	}
-
-// 	return links
-// }
-
 // building a link from a html node <a>
 func buildLinkFromNode(n *html.Node) Link {
 	var link Link
@@ -88,15 +59,12 @@ func buildLinkFromNode(n *html.Node) Link {
 	}
 
 	// initializing a new string
-	// var sb strings.Builder
 	text := ""
 
 	// extraxcting html text and concatenating to the String
-	// extractTextFromNode(n, &sb)
 	extractTextFromNode(n, &text)
 
 	// remove empty space (first and last)
-	// link.Text = strings.TrimSpace(sb.String())
 	link.Text = strings.TrimSpace(text)
 	return link
 
@@ -114,9 +82,4 @@ func extractTextFromNode(n *html.Node, text *string) {
 	for c := n.FirstChild; c != nil; c = c.NextSibling {
 		extractTextFromNode(c, text)
 	}
-
-	// if the node is an element link "p" or "br", then add a new line in output string
-	// if n.Type == html.ElementNode && (n.Data == "p" || n.Data == "br") {
-	// 	sb.WriteString("\n")
-	// }
 }
